@@ -85,4 +85,59 @@ def get_asset_symbol(asset_symbol):
     return symbol_dataframe
 
      
+#make trade 
+def make_trade(params,project_settings): 
+    #set API key 
+    api_key=project_settings["BinanceKeys"]["API_KEY"]
+    secret_key=project_settings["BinanceKeys"]["SECRET_KEY"]
+    #create client 
+    client=Spot(
+        api_key=api_key,
+        api_secret=secret_key,
+        base_url="https://testnet.binance.vision"
+    )
 
+    try: 
+        response = client.new_order(**params)
+        return response
+    except ConnectionRefusedError as error: 
+        print(f"Error: {error}")
+
+#query trades
+def get_trade(project_settings): 
+    #set API key 
+    api_key=project_settings["BinanceKeys"]["API_KEY"]
+    secret_key=project_settings["BinanceKeys"]["SECRET_KEY"]
+    #create client 
+    client=Spot(
+        api_key=api_key,
+        api_secret=secret_key,
+        base_url="https://testnet.binance.vision"
+    )
+
+    try : 
+        response = client.get_open_orders()
+        return response
+    except ConnectionRefusedError as error:
+        print(f"Error : {error}")
+
+
+#cancel trade 
+def cancel_trade(symbol,project_settings):
+        #set API key 
+    api_key=project_settings["BinanceKeys"]["API_KEY"]
+    secret_key=project_settings["BinanceKeys"]["SECRET_KEY"]
+    #create client 
+    client=Spot(
+        api_key=api_key,
+        api_secret=secret_key,
+        base_url="https://testnet.binance.vision"
+    )
+    try:
+        response=client.cancel_open_orders(symbol)
+        return response
+    except ConnectionRefusedError as error:
+        print(f"Found error: {error}")
+    
+#place a limit order for symbol 
+        
